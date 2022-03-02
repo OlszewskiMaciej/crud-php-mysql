@@ -1,19 +1,20 @@
 <?php
 require_once('database.php');
 
+$database = new Database();
+$conn = $database->dbConnection();
+
 if(isset($_POST['submit']))
 {
 
-	$name = $_POST['name'];
-	$number = $_POST['number'];
-	$date = $_POST['date'];
+	$title = $_POST['title'];
+	$price = $_POST['price'];
 
-	$query = "INSERT INTO crud (name, number, date) VALUES (:name, :number, :date)";
+	$query = "INSERT INTO api (title, price) VALUES (:title, :price)";
 
-	$sth = $pdo->prepare($query);
-	$sth->bindParam(':name', $name);
-	$sth->bindParam(':number', $number);
-	$sth->bindParam(':date', $date);
+	$sth = $conn->prepare($query);
+	$sth->bindParam(':title', $title);
+	$sth->bindParam(':price', $price);
 
 	$sth->execute();
 
@@ -33,9 +34,8 @@ if(isset($_POST['submit']))
 
 <form method="post" action="add.php">
 
-	Name: <input type="text" name="name"><br><br>
-	Number: <input type="number" name="number"><br><br>
-	Date: <input type="date" name="date"><br><br>
+	Title: <input type="text" name="title"><br><br>
+	Price: <input type="number" name="price"><br><br>
 
 	<input type="submit" name="submit" value="Add to the database" class="btn btn-primary">
 

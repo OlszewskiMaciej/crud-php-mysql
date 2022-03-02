@@ -1,21 +1,22 @@
 <?php
 require_once('database.php');
 
+$database = new Database();
+$conn = $database->dbConnection();
+
 $id = $_GET['id'];
 
 if(isset($_POST['submit']))
 {
 
-	$name = $_POST['name'];
-	$number = $_POST['number'];
-	$date = $_POST['date'];
+	$title = $_POST['title'];
+	$price = $_POST['price'];
 		
-	$query = "UPDATE `crud` SET `name`=:name, `number`=:number, `date`=:date WHERE id = $id";
+	$query = "UPDATE `api` SET `title`=:title, `price`=:price WHERE id = $id";
 		
-	$sth = $pdo->prepare($query);
-	$sth->bindParam(':name', $name);
-	$sth->bindParam(':number', $number);
-	$sth->bindParam(':date', $date);
+	$sth = $conn->prepare($query);
+	$sth->bindParam(':title', $title);
+	$sth->bindParam(':price', $price);
 
 	$sth->execute();
 		
@@ -25,7 +26,7 @@ if(isset($_POST['submit']))
 		
 if( $id > 0 )
 {
-	$sth = $pdo->prepare( 'SELECT * FROM crud WHERE id = :id' );
+	$sth = $conn->prepare( 'SELECT * FROM api WHERE id = :id' );
 	$sth->bindParam( ':id', $id );
 	$sth->execute();
 	$result = $sth->fetch();
@@ -44,10 +45,9 @@ if( $id > 0 )
 
 <form method="post" action="edit.php?id=<?php echo $id; ?>">
 
-	Name: <input type="text" name="name" <?php if( isSet( $result['name'] ) ) { echo 'value="' . $result['name'] . '"'; } ?>><br><br>
-	Number: <input type="number" name="number" <?php if( isSet( $result['number'] ) ) { echo 'value="' . $result['number'] . '"'; } ?>><br><br>
-	Date: <input type="date" name="date" <?php if( isSet( $result['date'] ) ) { echo 'value="' . $result['date'] . '"'; } ?>><br><br>
-
+	Title: <input type="text" name="title" <?php if( isSet( $result['title'] ) ) { echo 'value="' . $result['title'] . '"'; } ?>><br><br>
+	Price: <input type="number" name="price" <?php if( isSet( $result['price'] ) ) { echo 'value="' . $result['price'] . '"'; } ?>><br><br>
+	
 	<input type="submit" name="submit" value="Edit this" class="btn btn-primary">
 
 </form>

@@ -1,6 +1,9 @@
 <?php
 require_once('database.php');
 
+$database = new Database();
+$conn = $database->dbConnection();
+
 $id = 0;
 
 	if (isSet ($_GET['id']))
@@ -11,7 +14,7 @@ $id = 0;
 	if ($id > 0)
 	{
 
-	$sth = $pdo->prepare('DELETE FROM crud WHERE id = :id');
+	$sth = $conn->prepare('DELETE FROM api WHERE id = :id');
 	$sth->bindParam(':id', $id);
 	$sth->execute();
 

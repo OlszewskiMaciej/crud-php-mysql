@@ -1,18 +1,23 @@
 <?php
-ob_start();
-session_start();
+class Database
+{
 
-try {
+    private $db_host = 'localhost';
+    private $db_name = 'api';
+    private $db_username = 'root';
+    private $db_password = '';
 
-    $pdo = new PDO('mysql:host=localhost;dbname=crud;encoding=utf8', 'root', '');
-    $pdo -> query ('SET NAMES utf8');
-    $pdo -> query ('SET CHARACTER_SET utf8_unicode_ci');
 
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-    //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    public function dbConnection()
+    {
 
-} catch( PDOException $e ) {
-    echo 'ERROR: ' . $e->getMessage();
+        try {
+            $conn = new PDO('mysql:host=' . $this->db_host . ';dbname=' . $this->db_name, $this->db_username, $this->db_password);
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $conn;
+        } catch (PDOException $e) {
+            echo "Connection error " . $e->getMessage();
+            exit;
+        }
+    }
 }

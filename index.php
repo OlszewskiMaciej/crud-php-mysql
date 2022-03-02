@@ -18,17 +18,19 @@ require_once('database.php');
 
 <?php
 
-$sql = 'SELECT * FROM crud ORDER by id DESC';
+$database = new Database();
+$conn = $database->dbConnection();
 
-$sth = $pdo->query($sql);
+$sql = 'SELECT * FROM api ORDER by id ASC';
+
+$sth = $conn->query($sql);
 
 	echo '<table>';
 	echo '<tr>';
 
 		echo '<th>ID</th>';
-		echo '<th>Name</th>';
-		echo '<th>Number</th>';
-		echo '<th>Date</th>';
+		echo '<th>Title</th>';
+		echo '<th>Price</th>';
 		echo '<th>Options</th>';
 
 	echo '</tr>';
@@ -38,9 +40,8 @@ $sth = $pdo->query($sql);
 		echo '<tr>';
 
 			echo '<td>' . $value['id'] . '</td>';
-			echo '<td>' . $value['name'] . '</td>';
-			echo '<td>' . $value['number'] . '</td>';
-			echo '<td>' . $value['date'] . '</td>';
+			echo '<td>' . $value['title'] . '</td>';
+			echo '<td>' . $value['price'] . ' USD</td>';
 			echo '<td width="170px">
 			<a href="delete.php?id=' . $value['id'] . '">Delete</a>
 			<a href="edit.php?id=' . $value['id'] . '">Edit</a>';
